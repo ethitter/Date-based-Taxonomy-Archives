@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Date-based Taxonomy Archives
-Plugin URI:
+Plugin URI: http://www.ethitter.com/plugins/date-based-taxonomy-archives/
 Description: Add support for date-based taxonomy archives. Render an unordered list of years with months, linked to corresponding date-based taxonomy archive, nested therein.
 Author: Erick Hitter
 Version: 0.2
