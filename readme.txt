@@ -18,6 +18,8 @@ Includes a function for rendering an unordered list of years with months, linked
 
 **This plugin is intended for use by plugin and theme developers. It simply adds support for date-based taxonomy archives, but has no native user interface.**
 
+**Development is over on GitHub: https://github.com/ethitter/Date-based-Taxonomy-Archives/.**
+
 == Installation ==
 
 1. Upload date-based-taxonomy-archives to /wp-content/plugins/.
