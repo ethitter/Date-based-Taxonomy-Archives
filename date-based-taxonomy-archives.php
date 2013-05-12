@@ -32,12 +32,12 @@ class Date_Based_Taxonomy_Archives {
 	 * Class variables
 	 */
 	private $defaults = array(
-		'taxonomies' => false,
+		'taxonomies'      => false,
 		'show_post_count' => false,
-		'limit' => '',
-		'before' => '',
-		'after' => '',
-		'echo' => true
+		'limit'           => '',
+		'before'          => '',
+		'after'           => '',
+		'echo'            => true,
 	);
 
 	private $cache_key_incrementor = 'incrementor';
@@ -120,7 +120,7 @@ class Date_Based_Taxonomy_Archives {
 		$args = wp_parse_args( $args, $this->defaults );
 		extract( $args );
 
-		//Build query
+		// Build query
 		$where = apply_filters( 'date_based_taxonomy_archives_where', "WHERE post_type = 'post' AND post_status = 'publish'", $args );
 		$join = apply_filters( 'date_based_taxonomy_archives_join', '', $args );
 
@@ -129,7 +129,7 @@ class Date_Based_Taxonomy_Archives {
 
 		$query = "SELECT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date DESC $limit";
 
-		//Generate cache key, check cache, query DB if necessary and cache results
+		// Generate cache key, check cache, query DB if necessary and cache results
 		$cache_key = $this->get_incrementor() . md5( $query );
 
 		if ( ! $results = wp_cache_get( $cache_key, $this->cache_group ) ) {
@@ -138,15 +138,15 @@ class Date_Based_Taxonomy_Archives {
 			wp_cache_set( $cache_key, $results, $this->cache_group );
 		}
 
-		//Bail out if necessary data isn't available
+		// Bail out if necessary data isn't available
 		if ( ! is_array( $results ) || empty( $results ) )
 			return false;
 
-		//Render archive
+		// Render archive
 		$output = '<ul>';
 		$cy = false;
 
-		//Alias $after for use inside of foreach
+		// Alias $after for use inside of foreach
 		$_after = $after;
 
 		foreach ( $results as $result ) {
@@ -174,7 +174,7 @@ class Date_Based_Taxonomy_Archives {
 
 		$output .= '</ul>';
 
-		//Reset archive links filter indicator
+		// Reset archive links filter indicator
 		$this->filter_archive_links = false;
 
 		if ( $echo )
@@ -213,8 +213,7 @@ class Date_Based_Taxonomy_Archives {
 
 			if ( is_object( $queried_object ) && property_exists( $queried_object, 'term_taxonomy_id' ) )
 				$where .= $wpdb->prepare( ' AND dbtrtr.term_taxonomy_id = %d', $queried_object->term_taxonomy_id );
-		}
-		elseif ( is_array( $taxonomies ) ) {
+		} elseif ( is_array( $taxonomies ) ) {
 			$queried_object = get_queried_object();
 
 			if ( is_object( $queried_object ) && property_exists( $queried_object, 'term_taxonomy_id' ) && property_exists( $queried_object, 'taxonomy' ) && in_array( $queried_object->taxonomy, $taxonomies ) )
@@ -283,17 +282,16 @@ class Date_Based_Taxonomy_Archives {
 				$exploded = explode( "'", $link_html );
 
 				if ( $wp_rewrite->using_permalinks() && array_key_exists( $queried_object->taxonomy, $wp_rewrite->extra_permastructs ) ) {
-					$term_rewrite = preg_replace( '#%[^%]+%#i', $queried_object->slug, $wp_rewrite->extra_permastructs[ $queried_object->taxonomy ][ 'struct' ] );
-					$term_rewrite = substr( $term_rewrite, 1 ); //Drop leading slash, otherwise path_join misinterprets request
+					$term_rewrite = preg_replace( '#%[^%]+%#i', $queried_object->slug, $wp_rewrite->extra_permastructs[$queried_object->taxonomy]['struct'] );
+					$term_rewrite = substr( $term_rewrite, 1 ); // Drop leading slash, otherwise path_join misinterprets request
 					$term_rewrite = path_join( $term_rewrite, 'date' );
 
-					$exploded[ 1 ] = str_replace( trailingslashit( home_url() ), trailingslashit( path_join( home_url(), $term_rewrite ) ), $exploded[ 1 ] );
-				}
-				else {
+					$exploded[1] = str_replace( trailingslashit( home_url() ), trailingslashit( path_join( home_url(), $term_rewrite ) ), $exploded[1] );
+				} else {
 					$taxonomy = get_taxonomy( $queried_object->taxonomy );
 
 					if ( is_object( $taxonomy ) && ! is_wp_error( $taxonomy ) )
-						$exploded[ 1 ] = add_query_arg( $taxonomy->query_var, $queried_object->slug, $exploded[ 1 ] );
+						$exploded[1] = add_query_arg( $taxonomy->query_var, $queried_object->slug, $exploded[1] );
 				}
 
 				$link_html = implode( "'", $exploded );
@@ -318,7 +316,7 @@ class Date_Based_Taxonomy_Archives {
 			$rules = array();
 
 			foreach ( $taxonomies as $taxonomy )
-				$rules[ $taxonomy->rewrite[ 'slug' ] . '/(.+?)/date/([0-9]{4})/([0-9]{1,2})/?(page/?([0-9]{1,})/?)?$' ] = 'index.php?' . $taxonomy->query_var . '=$matches[1]&year=$matches[2]&monthnum=$matches[3]&paged=$matches[5]';
+				$rules[$taxonomy->rewrite['slug'] . '/(.+?)/date/([0-9]{4})/([0-9]{1,2})/?(page/?([0-9]{1,})/?)?$'] = 'index.php?' . $taxonomy->query_var . '=$matches[1]&year=$matches[2]&monthnum=$matches[3]&paged=$matches[5]';
 
 			$wp_rewrite->rules = $rules + $wp_rewrite->rules;
 		}
@@ -339,7 +337,7 @@ class Date_Based_Taxonomy_Archives {
 			wp_cache_set( $this->cache_key_incrementor, $incrementor, $this->cache_group );
 		}
 
-		return (int)$incrementor;
+		return (int) $incrementor;
 	}
 
 	/**
