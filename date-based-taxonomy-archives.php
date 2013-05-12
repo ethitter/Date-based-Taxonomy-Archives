@@ -77,7 +77,7 @@ class Date_Based_Taxonomy_Archives {
 		if ( is_numeric( $limit ) )
 			$limit = ' LIMIT ' . absint( $limit );
 
-		$query = $wpdb->prepare( "SELECT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date DESC $limit" );
+		$query = "SELECT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts FROM $wpdb->posts $join $where GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date DESC $limit";
 
 		//Generate cache key, check cache, query DB if necessary and cache results
 		$cache_key = $this->get_incrementor() . md5( $query );
