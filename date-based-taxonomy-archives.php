@@ -108,6 +108,7 @@ class Date_Based_Taxonomy_Archives {
 	 * @uses this::get_incrementor
 	 * @uses wp_cache_get
 	 * @uses wp_cache_set
+	 * @uses number_format_i18n
 	 * @uses get_month_link
 	 * @uses get_archives_link
 	 * @return string or false
@@ -163,7 +164,7 @@ class Date_Based_Taxonomy_Archives {
 
 			$text = $wp_locale->get_month( $result->month );
 
-			$after = $show_post_count ? '&nbsp;(' . absint( $result->posts ) . ')' . $_after : $_after;
+			$after = $show_post_count ? '&nbsp;(' . number_format_i18n( absint( $result->posts ) ) . ')' . $_after : $_after;
 
 			$output .= get_archives_link( $url, $text, 'html', $before, $after );
 		}
