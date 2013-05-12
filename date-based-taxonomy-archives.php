@@ -31,7 +31,7 @@ class Date_Based_Taxonomy_Archives {
 	/**
 	 * Class variables
 	 */
-	var $defaults = array(
+	private $defaults = array(
 		'taxonomies' => false,
 		'show_post_count' => false,
 		'limit' => '',
@@ -40,10 +40,10 @@ class Date_Based_Taxonomy_Archives {
 		'echo' => true
 	);
 
-	var $cache_key_incrementor = 'incrementor';
-	var $cache_group = 'date_based_taxonomy_archives';
+	private $cache_key_incrementor = 'incrementor';
+	private $cache_group = 'date_based_taxonomy_archives';
 
-	var $filter_archive_links = false;
+	private $filter_archive_links = false;
 
 	/**
 	 * Silence is golden!
@@ -64,6 +64,19 @@ class Date_Based_Taxonomy_Archives {
 		}
 
 		return self::$__instance;
+	}
+
+	/**
+	 * Magic getter to provide access to class variables that were public prior to v0.3.
+	 *
+	 * @param string $name
+	 * @return mixed
+	 */
+	public function __get( $name ) {
+		if ( property_exists( $this, $name ) )
+			return $this->$name;
+		else
+			return null;
 	}
 
 	/**
