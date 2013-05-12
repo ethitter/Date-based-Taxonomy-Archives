@@ -4,7 +4,7 @@ Plugin Name: Date-based Taxonomy Archives
 Plugin URI: http://www.ethitter.com/plugins/date-based-taxonomy-archives/
 Description: Add support for date-based taxonomy archives. Render an unordered list of years with months, linked to corresponding date-based taxonomy archive, nested therein.
 Author: Erick Hitter
-Version: 0.2
+Version: 0.3
 Author URI: http://www.ethitter.com/
 
 This program is free software; you can redistribute it and/or modify
@@ -24,6 +24,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 class Date_Based_Taxonomy_Archives {
 	/**
+	 * Singleton
+	 */
+	private static $__instance = null;
+
+	/**
 	 * Class variables
 	 */
 	var $defaults = array(
@@ -41,12 +46,33 @@ class Date_Based_Taxonomy_Archives {
 	var $filter_archive_links = false;
 
 	/**
+	 * Silence is golden!
+	 */
+	private function __construct() {}
+
+	/**
+	 * Singleton implementation
+	 *
+	 * @uses self::setup
+	 * @return object
+	 */
+	public static function get_instance() {
+		if ( ! is_a( self::$__instance, __CLASS__ ) ) {
+			self::$__instance = new self;
+
+			self::$__instance->setup();
+		}
+
+		return self::$__instance;
+	}
+
+	/**
 	 * Register actions and filters
 	 *
 	 * @uses add_action, add_filter
 	 * @return null
 	 */
-	function __construct() {
+	private function setup() {
 		add_filter( 'date_based_taxonomy_archives_where', array( $this, 'filter_date_based_taxonomy_archives_where' ), 10, 2 );
 		add_filter( 'date_based_taxonomy_archives_join', array( $this, 'filter_date_based_taxonomy_archives_join' ), 10, 2 );
 		add_filter( 'get_archives_link', array( $this, 'filter_get_archives_link' ) );
@@ -287,9 +313,12 @@ class Date_Based_Taxonomy_Archives {
 			wp_cache_delete( $this->cache_key_incrementor, $this->cache_group );
 	}
 }
-global $date_based_taxonomy_archives;
-if ( ! is_a( $date_based_taxonomy_archives, 'Date_Based_Taxonomy_Archives' ) )
-	$date_based_taxonomy_archives = new Date_Based_Taxonomy_Archives;
+Date_Based_Taxonomy_Archives::get_instance();
+
+/**
+ * Alias global variable used to hold class prior to singleton implementation in v0.3.
+ */
+$GLOBALS['date_based_taxonomy_archives'] = Date_Based_Taxonomy_Archives::get_instance();
 
 /**
  * Render unordered lists of monthly archive links grouped by year
@@ -299,10 +328,5 @@ if ( ! is_a( $date_based_taxonomy_archives, 'Date_Based_Taxonomy_Archives' ) )
  * @return string or false
  */
 function date_based_taxonomy_archives( $args = array() ) {
-	global $date_based_taxonomy_archives;
-	if ( ! is_a( $date_based_taxonomy_archives, 'Date_Based_Taxonomy_Archives' ) )
-		$date_based_taxonomy_archives = new Date_Based_Taxonomy_Archives;
-
-	return $date_based_taxonomy_archives->get_archives( $args );
+	return Date_Based_Taxonomy_Archives::get_instance()->get_archives( $args );
 }
-?>
