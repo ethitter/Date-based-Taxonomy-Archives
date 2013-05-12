@@ -82,7 +82,8 @@ class Date_Based_Taxonomy_Archives {
 	/**
 	 * Register actions and filters
 	 *
-	 * @uses add_action, add_filter
+	 * @uses add_action
+	 * @uses add_filter
 	 * @return null
 	 */
 	private function setup() {
@@ -98,8 +99,17 @@ class Date_Based_Taxonomy_Archives {
 	/**
 	 * Render unordered lists of monthly archive links grouped by year
 	 *
+	 * @global $wpdb
+	 * @global $wp_locale
 	 * @param array $args
-	 * @uses $wpdb, $wp_locale, apply_filters, wp_parse_args, absint, this::get_incrementor, wp_cache_get, wp_cache_set, get_month_link, get_archives_link
+	 * @uses apply_filters
+	 * @uses wp_parse_args
+	 * @uses absint
+	 * @uses this::get_incrementor
+	 * @uses wp_cache_get
+	 * @uses wp_cache_set
+	 * @uses get_month_link
+	 * @uses get_archives_link
 	 * @return string or false
 	 */
 	function get_archives( $args = array() ) {
@@ -175,9 +185,15 @@ class Date_Based_Taxonomy_Archives {
 	/**
 	 * Filter where clause used in this::get_archives
 	 *
+	 * @global $wpdb
 	 * @param string $where
 	 * @param array $args
-	 * @uses $wpdb, apply_filters, wp_parse_args, is_category, is_tag, is_tax, get_queried_object
+	 * @uses apply_filters
+	 * @uses wp_parse_args
+	 * @uses is_category
+	 * @uses is_tag
+	 * @uses is_tax
+	 * @uses get_queried_object
 	 * @filter date_based_taxonomy_archives_where
 	 * @return string
 	 */
@@ -210,9 +226,14 @@ class Date_Based_Taxonomy_Archives {
 	/**
 	 * Filter join clause used in this::get_archives
 	 *
+	 * @global $wpdb
 	 * @param string $join
 	 * @param array $args
-	 * @uses $wpdb, apply_filters, wp_parse_args, is_category, is_tag, is_tax
+	 * @uses apply_filters
+	 * @uses wp_parse_args
+	 * @uses is_category
+	 * @uses is_tag
+	 * @uses is_tax
 	 * @filter date_based_taxonomy_archives_join
 	 * @return string
 	 */
@@ -239,8 +260,15 @@ class Date_Based_Taxonomy_Archives {
 	/**
 	 * Filter get_archives_link output to inject taxonomy and term slugs
 	 *
+	 * @global $wp_rewrite
 	 * @param string $link_html
-	 * @uses $wp_rewrite, get_queried_object, is_wp_error, path_join, trailingslashit, home_url, get_taxonomy, add_query_arg
+	 * @uses get_queried_object
+	 * @uses is_wp_error
+	 * @uses path_join
+	 * @uses trailingslashit
+	 * @uses home_url
+	 * @uses get_taxonomy
+	 * @uses add_query_arg
 	 * @filter get_archives_link
 	 * @return string
 	 */
@@ -298,7 +326,8 @@ class Date_Based_Taxonomy_Archives {
 	/**
 	 * Return cache incrementor. To invalidate caches, incrementor is deleted via this::action_transition_post_status.
 	 *
-	 * @uses wp_cache_get, wp_cache_set
+	 * @uses wp_cache_get
+	 * @uses wp_cache_set
 	 * @return int
 	 */
 	function get_incrementor() {
@@ -337,7 +366,7 @@ $GLOBALS['date_based_taxonomy_archives'] = Date_Based_Taxonomy_Archives::get_ins
  * Render unordered lists of monthly archive links grouped by year
  *
  * @param array $args
- * @uses $date_based_taxonomy_archives
+ * @uses Date_Based_Taxonomy_Archives::get_instance
  * @return string or false
  */
 function date_based_taxonomy_archives( $args = array() ) {
