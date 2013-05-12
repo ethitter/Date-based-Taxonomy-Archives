@@ -189,7 +189,7 @@ class Date_Based_Taxonomy_Archives {
 			( $taxonomies == 'custom' && ! is_category() && ! is_tag() && is_tax() ) ||
 			is_array( $taxonomies )
 		) {
-			$join .= $wpdb->prepare( " INNER JOIN {$wpdb->term_relationships} AS dbtrtr on dbtrtr.object_id = {$wpdb->posts}.ID" );
+			$join .= " INNER JOIN {$wpdb->term_relationships} AS dbtrtr on dbtrtr.object_id = {$wpdb->posts}.ID";
 
 			$this->filter_archive_links = true;
 		}
