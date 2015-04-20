@@ -3,8 +3,8 @@ Contributors: ethitter
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=10275434
 Tags: archive, taxonomy, taxonomies, date
 Requires at least: 3.4
-Tested up to: 3.6
-Stable tag: 0.3
+Tested up to: 4.2
+Stable tag: 0.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,9 @@ Add the function `date_based_taxonomy_archives()` to any template element that a
 
 == Changelog ==
 
+= 0.3.1 =
+* Security update: correct misuse of `add_query_arg()` as identified by Sucuri: https://blog.sucuri.net/2015/04/security-advisory-xss-vulnerability-affecting-multiple-wordpress-plugins.html.
+
 = 0.3 =
 * Remove unnecessary uses of `$wpdb->prepare()` that were incorrectly implemented, resulting in PHP warnings when `WP_DEBUG` was enabled.
 * Convert plugin to a singelton pattern instead of relying on a global variable.
@@ -55,6 +58,9 @@ Add the function `date_based_taxonomy_archives()` to any template element that a
 * Initial public release
 
 == Upgrade Notice ==
+
+= 0.3.1 =
+Security update: correct misuse of `add_query_arg()` as identified by Sucuri: https://blog.sucuri.net/2015/04/security-advisory-xss-vulnerability-affecting-multiple-wordpress-plugins.html.
 
 = 0.3 =
 Maintenance release encouraged for all users. Of note, resolves a PHP warning due to an improper use of `$wpdb->prepare()`.

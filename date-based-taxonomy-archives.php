@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Date-based Taxonomy Archives
-Plugin URI: http://www.ethitter.com/plugins/date-based-taxonomy-archives/
+Plugin URI: https://ethitter.com/plugins/date-based-taxonomy-archives/
 Description: Add support for date-based taxonomy archives. Render an unordered list of years with months, linked to corresponding date-based taxonomy archive, nested therein.
 Author: Erick Hitter
-Version: 0.3
-Author URI: http://www.ethitter.com/
+Version: 0.3.1
+Author URI: https://ethitter.com/
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -268,6 +268,7 @@ class Date_Based_Taxonomy_Archives {
 	 * @uses trailingslashit
 	 * @uses home_url
 	 * @uses get_taxonomy
+	 * @uses esc_url
 	 * @uses add_query_arg
 	 * @filter get_archives_link
 	 * @return string
@@ -291,7 +292,7 @@ class Date_Based_Taxonomy_Archives {
 					$taxonomy = get_taxonomy( $queried_object->taxonomy );
 
 					if ( is_object( $taxonomy ) && ! is_wp_error( $taxonomy ) )
-						$exploded[1] = add_query_arg( $taxonomy->query_var, $queried_object->slug, $exploded[1] );
+						$exploded[1] = esc_url( add_query_arg( $taxonomy->query_var, $queried_object->slug, $exploded[1] ) );
 				}
 
 				$link_html = implode( "'", $exploded );
