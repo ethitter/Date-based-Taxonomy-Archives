@@ -1,6 +1,6 @@
 === Date-based Taxonomy Archives ===
 Contributors: ethitter
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=10275434
+Donate link: https://ethitter.com/donate/
 Tags: archive, taxonomy, taxonomies, date
 Requires at least: 3.4
 Tested up to: 4.2
